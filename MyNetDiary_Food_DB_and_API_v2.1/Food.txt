@@ -1,0 +1,90 @@
+1001	Dairy and egg butter butter salted	144101	802	055872271850	901002
+1002	Butter whipped with salt	2.94785e+06	802	\N	901002
+1003	Butter oil anhydrous	71	802	\N	901002
+1004	Cheese blue	1.08368e+06	102	\N	901003
+1005	Cheese brick	1.02876e+06	102	\N	901003
+1006	Cheese brie	1.09454e+06	102	\N	901003
+1007	Cheese camembert	1.02971e+06	105	\N	901003
+1008	Cheese caraway	1.00104e+06	102	\N	901003
+1009	Cheese cheddar	2.86633e+06	105	\N	901003
+1010	Cheese cheshire	1.00548e+06	102	\N	901003
+1011	Cheese colby	1.07371e+06	102	\N	901003
+1012	Cheese cottage creamed large or small curd	1.05134e+06	106	\N	901006
+1013	Cheese cottage creamed with fruit	195	106	\N	901006
+1014	Cheese cottage nonfat uncreamed dry large or small curd	6619	106	\N	901006
+1015	Cheese cottage lowfat 2% milkfat	1.26548e+06	106	\N	901006
+1016	Dairy and egg cheese cottage lowfat 1% milkfat cheese cottage lowfat 1% milkfat	18122	106	071962717008	901007
+1017	Cheese cream	1.17857e+06	108	\N	901008
+1018	Cheese edam	1.05128e+06	102	\N	901003
+1019	Cheese feta	1.31704e+06	423	\N	901003
+1020	Cheese fontina	1.00925e+06	102	\N	901003
+1021	Cheese gjetost	1.00169e+06	102	\N	901003
+1022	Cheese gouda	1.10322e+06	102	\N	901003
+1023	Cheese gruyere	1.02429e+06	102	\N	901003
+1024	Cheese limburger	1.00083e+06	102	\N	901003
+1025	Cheese monterey	1.02967e+06	102	\N	901003
+1026	Cheese mozzarella whole milk	1.1358e+06	107	\N	901011
+1027	Cheese mozzarella whole milk low moisture	637	107	\N	901011
+1028	Cheese mozzarella part skim milk	1.11634e+06	107	\N	901011
+1029	Cheese mozzarella part skim milk low moisture	13995	107	\N	901011
+1030	Cheese muenster	1.02789e+06	102	\N	901003
+1031	Cheese neufchatel	1.00557e+06	102	\N	901003
+1032	Cheese parmesan grated	1.24981e+06	102	\N	901012
+1033	Cheese parmesan hard	1.05003e+06	105	\N	901012
+1034	Cheese port de salut	1.00318e+06	102	\N	901003
+1035	Cheese provolone	1.13727e+06	102	\N	901003
+1036	Cheese ricotta whole milk	1.02508e+06	106	\N	901003
+1037	Cheese ricotta part skim milk	1.02281e+06	106	\N	901003
+1038	Cheese romano	1.01149e+06	102	\N	901003
+1039	Cheese roquefort	1.0057e+06	102	\N	901003
+1040	Cheese swiss	1.20544e+06	102	\N	901016
+1041	Cheese tilsit	1.00233e+06	102	\N	901003
+1042	Cheese pasteurized process american with di sodium phosphate	39	102	\N	901014
+1043	Cheese pasteurized process pimento	178	102	\N	901013
+1044	Cheese pasteurized process swiss with di sodium phosphate (retired)	2	102	\N	901015
+1045	Cheese food cold pack american	1.02712e+06	102	\N	901003
+1046	Cheese food pasteurized process american without di sodium phosphate	59	102	\N	901004
+1047	Cheese food pasteurized process swiss	1.00411e+06	102	\N	901004
+1048	Cheese spread pasteurized process american without di sodium phosphate	13	102	\N	901005
+1049	Cream fluid half and	1.26199e+06	101	\N	901019
+1050	Cream fluid light coffee or table	1.07471e+06	101	\N	901019
+1052	Cream fluid light whipping	1.01571e+06	119	\N	901019
+1053	Cream fluid heavy whipping	1.06691e+06	119	\N	901019
+1054	Cream whipped topping pressurized	35272	108	\N	901017
+1055	Cream sour reduced fat cultured	120	119	\N	901017
+1056	Cream sour cultured	46751	119	\N	901017
+1057	Eggnog	3210	42	\N	901021
+1058	Sour dressing non-butterfat cultured filled cream-type	6	108	\N	901038
+1059	Milk filled fluid with blend of hydrogenated vegetable oils	41	\N	\N	901027
+1060	Milk filled fluid with lauric acid oil	10	\N	\N	901027
+1067	Cream substitute liquid with hydrogenated vegetable oil and soy protein	229	108	\N	901018
+1068	Cream substitute liquid with lauric acid oil and sodium caseinate	42	108	\N	901018
+1069	Cream substitute powdered	1506	108	\N	901017
+1070	Dessert topping powdered	3	104	\N	901020
+1071	Dessert topping powdered 1.5 ounce prepared with 1/2 cup milk	70	104	\N	901020
+1072	Dessert topping pressurized	274	104	\N	901020
+1073	Dessert topping semi solid frozen	11	104	\N	901020
+1074	Sour cream imitation cultured	28	119	\N	901039
+1075	Milk substitutes fluid with hydrogenated vegetable oils	6	\N	\N	901027
+1076	Milk substitutes fluid with lauric acid oil	6	\N	\N	901027
+1077	Milk whole 3.25% milkfat	2.41353e+06	101	\N	901027
+1078	Milk producer fluid 3.7% milkfat	78	\N	\N	901027
+1079	Dairy and egg milk reduced fat fluid 2% milkfat milk reduced fat fluid 2% milkfat with added vitamin a	144674	101	015700164488	901037
+1080	Milk reduced fat fluid 2% milkfat with added nonfat solids and vitamin a	605	101	\N	901037
+1081	Milk reduced fat fluid 2% milkfat protein fortified with added vitamin a	5287	101	\N	901037
+1082	Milk lowfat fluid 1% milkfat with added vitamin a	2.12623e+06	101	\N	901034
+1083	Milk lowfat fluid 1% milkfat with added nonfat solids and vitamin a	5135	115	\N	901034
+1084	Milk lowfat fluid 1% milkfat protein fortified with added vitamin a	3950	101	\N	901034
+1085	Dairy and egg milk nonfat fluid milk nonfat fluid with added vitamin a fat free or skim	136766	101	\N	901035
+1086	Milk nonfat fluid with added solids and vitamin a fat free or skim	5987	101	\N	901035
+1087	Milk nonfat fluid protein fortified with added vitamin a fat free and skim	19909	101	\N	901035
+1088	Milk buttermilk fluid cultured lowfat	3664	101	\N	901028
+1089	Milk low sodium fluid	6	\N	\N	901027
+1090	Milk dry whole	138	\N	\N	901027
+1091	Milk dry nonfat regular without added vitamin a	70	101	\N	901032
+1092	Milk dry nonfat instant with added vitamin a	4032	101	\N	901032
+1093	Milk dry nonfat calcium reduced	14	101	\N	901032
+1094	Milk buttermilk dried	48	101	\N	901028
+1095	Milk canned condensed sweetened	13172	101	\N	901027
+1096	Milk canned evaporated without added vitamin a	535	101	\N	901029
+1097	Milk canned evaporated nonfat	1033	101	\N	901029
