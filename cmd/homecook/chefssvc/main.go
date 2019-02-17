@@ -8,7 +8,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/quocdat32461997/HomeCOOK/internal/cloud"
 	"github.com/quocdat32461997/HomeCOOK/internal/services/chefs"
-	"github.com/quocdat32461997/HomeCOOK/internal/services/users"
 )
 
 func main() {
@@ -37,15 +36,6 @@ func main() {
 	}
 	defer session.Close()
 
-	// Initialize the user service server and proxy
-	userService := &users.Server{
-		Mongo:    mongo,
-		Endpoint: "0.0.0.0:9000",
-	}
-
-	go users.StartUserService(userService)
-	go users.StartUserServiceProxy(userService)
-
 	// Initialize the chef service server and proxy
 	chefService := &chefs.Server{
 		Mongo:    mongo,
@@ -54,15 +44,11 @@ func main() {
 	go chefs.StartChefService(chefService)
 	go chefs.StartChefServiceProxy(chefService)
 
-	// Initialize the recipe service server and proxy
-	// go startRecipeService
-	// go startRecipeProxy
-
 	// Wait for Control+C
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, os.Interrupt)
 
-	log.Println("Waiting for SIGINT...")
+	log.Println("Chef's service waiting for SIGINT...")
 	<-ch
 
 }
