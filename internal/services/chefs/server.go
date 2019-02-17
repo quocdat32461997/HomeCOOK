@@ -4,6 +4,7 @@ import (
 	"net"
 	"net/http"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/quocdat32461997/HomeCOOK/api/protos/chefpb"
 	"github.com/quocdat32461997/HomeCOOK/internal/cloud"
@@ -87,6 +88,11 @@ func (s *Server) GetChef(ctx context.Context, request *chefpb.ChefRequest) (*che
 	return &chefpb.ChefResponse{
 		Chef: convert(chef),
 	}, nil
+}
+
+// Health returns a health response for the Google Cloud Load Balancer Ingress
+func (s *Server) Health(ctx context.Context, req *empty.Empty) (*empty.Empty, error) {
+	return req, nil
 }
 
 // StartChefService starts the chef service's server

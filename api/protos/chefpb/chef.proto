@@ -1,6 +1,8 @@
 syntax = "proto3";
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
 package io.homecook.service.chef;
 option go_package="chefpb";
 
@@ -44,6 +46,11 @@ message ChefResponse {
 	Chef chef = 1;
 }
 
+message HealthRequest{}
+
+message HealthResponse{
+
+}
 
 service ChefService {
 	rpc CreateChef (ChefRequest) returns (ChefResponse) {
@@ -65,7 +72,12 @@ service ChefService {
 		option (google.api.http) = {
 			get: "/v1/chef/{chef.id}"
 		};
+	}
 
+	rpc Health (google.protobuf.Empty) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			get: "/health"
+		};
 	}
 	
 }
