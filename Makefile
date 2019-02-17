@@ -39,9 +39,13 @@ shc:
 run:
 	go run cmd/homecook/main.go
 
-docker: 
-	docker build -t gcr.io/homecook/homecook:latest .
-	docker push gcr.io/homecook/homecook:latest
+usersd: 
+	docker build -t gcr.io/homecook/homecook-users:latest .
+	docker push gcr.io/homecook/homecook-users:latest
+	
+chefsd: 
+	docker build -t gcr.io/homecook/homecook-chefs:latest .
+	docker push gcr.io/homecook/homecook-chefs:latest
 
 kubeinit:
 	gcloud container clusters create homecook
