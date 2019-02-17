@@ -15,10 +15,10 @@ message Chef {
 	string id = 1;
 	
 	// The chef's first name
-	int32 first_name = 2;
+	string first_name = 2;
 	
 	// The chef's last name
-	int32 last_name = 3;
+	string last_name = 3;
 	
 	// The chef's hashed and salted password
 	string password = 4;
