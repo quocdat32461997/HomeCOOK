@@ -15,6 +15,7 @@ import (
 
 const (
 	usersCollection = "users"
+	chefsCollection = "chefs"
 )
 
 // MongoConn provides a connection to the MongoDB Atlas cluster
@@ -54,11 +55,11 @@ func (m *MongoConn) InitDB() (*mgo.Session, error) {
 // CreateUser creates a user
 func (m *MongoConn) CreateUser(user *models.User) error {
 	oid := bson.NewObjectId()
+	user.ID = oid
 	err := m.Client.C(usersCollection).Insert(user)
 	if err != nil {
 		panic(err)
 	}
-	user.ID = oid
 	return err
 }
 
@@ -81,9 +82,40 @@ func (m *MongoConn) GetUser(id string) (*models.User, error) {
 			fmt.Sprintf("Unable to find user with ObjectId %v: %v", id, err),
 		)
 	}
-	var item interface{}
 	query.One(&user)
-	item = user
-	fmt.Print(item)
 	return user, nil
+}
+
+// CreateChef creates a chef
+func (m *MongoConn) CreateChef(chef *models.Chef) error {
+	oid := bson.NewObjectId()
+	chef.ID = oid
+	err := m.Client.C(chefsCollection).Insert(chef)
+	if err != nil {
+		panic(err)
+	}
+	return err
+}
+
+// GetChef gets a chef
+func (m *MongoConn) GetChef(id string) (*models.Chef, error) {
+	if !bson.IsObjectIdHex(id) {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Input string is not valid ObjectId hex"),
+		)
+	}
+
+	oid := bson.ObjectIdHex(id)
+	chef := &models.Chef{}
+	query := m.Client.C(chefsCollection).Find(bson.M{"_id": oid})
+
+	if n, err := query.Count(); n == 0 {
+		return nil, status.Errorf(
+			codes.NotFound,
+			fmt.Sprintf("Unable to find chef with ObjectId %v: %v", id, err),
+		)
+	}
+	query.One(&chef)
+	return chef, nil
 }
