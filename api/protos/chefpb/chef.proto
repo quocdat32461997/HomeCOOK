@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+package io.homecook.service.chef;
+option go_package="chefpb";
+
+
+message Location {
+	double longitude = 1;
+	double latitude = 2;
+}
+
+message Chef {
+	// The unique ID of the chef
+	string id = 1;
+	
+	// The chef's first name
+	int32 first_name = 2;
+	
+	// The chef's last name
+	int32 last_name = 3;
+	
+	// The chef's hashed and salted password
+	string password = 4;
+	
+	// The chef's location
+	Location location = 5;
+	
+	// The chef's rating
+	float rating = 6;
+	
+	// The number of ratings that the chef has gotten
+	int32 num_rating = 7;
+
+	// The recipes that the chef knows how to cook
+	repeated string known_recipies = 8;
+}
+
+message ChefRequest{
+	Chef chef = 1;
+}
+
+message ChefResponse {
+	Chef chef = 1;
+}
+
+
+service ChefService {
+	rpc CreateChef (ChefRequest) returns (ChefResponse) {
+		/* Example POST request: 
+		curl -H "Accept: application/jsonpb" \
+		-H "Content-Type: application/json" \
+		-X POST \
+		-d '{"chef": {"first_name": "Simon", "last_name": "Woldemichael", "password": "l337p@$$w0rd", "location": {"latitude": 33.5779, "longitude": 101.8552 }}}' \
+		http://localhost:8080/v1/chef
+		Fields omitted in POST request: 1, 6, 7
+		*/
+		option (google.api.http) = {
+			post: "/v1/chef"
+			body: "*"
+		};
+	}
+	
+	rpc GetChef (ChefRequest) returns (ChefResponse) {
+		option (google.api.http) = {
+			get: "/v1/chef/{chef.id}"
+		};
+
+	}
+	
+}
+
