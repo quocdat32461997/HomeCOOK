@@ -9,13 +9,9 @@ import (
 	"github.com/quocdat32461997/HomeCOOK/api/protos/userpb"
 	"github.com/quocdat32461997/HomeCOOK/internal/cloud"
 	"github.com/quocdat32461997/HomeCOOK/internal/models"
-	uuid "github.com/satori/go.uuid"
-	"gitlab.com/nickelapp/nickel-api/api/protos/contentpb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
-	"google.golang.org/grpc/status"
 )
 
 // Server represents the user service's server
@@ -40,7 +36,7 @@ func convert(user *models.User) *userpb.User {
 	}
 
 	return &userpb.User{
-		Id:        user.ID,
+		Id:        user.ID.Hex(), // Convert to string for Protocol Buffers model
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Password:  user.Password,
@@ -64,10 +60,7 @@ func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*
 	data := request.GetUser()
 	location := data.GetLocation()
 
-	// Generate UUID
-	id := uuid.Must(uuid.NewV4())
-
-	// Create model and Encrypt password to model
+	// Create model and Encrypt password
 	user := &models.User{
 		FirstName: data.GetFirstName(),
 		LastName:  data.GetLastName(),
@@ -80,13 +73,12 @@ func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*
 		FoodPreference: data.GetFoodPreference().String(),
 	}
 
-	// Insert into database
+	// Insert into database and add ObjectId to struct
 	err := s.Mongo.CreateUser(user)
+	fmt.Println(user)
+
 	if err != nil {
-		return nil, status.Errorf(
-			codes.Internal,
-			fmt.Sprintf("Unable to add user to database"),
-		)
+		return nil, err
 	}
 
 	return &userpb.UserResponse{
@@ -94,25 +86,22 @@ func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*
 	}, nil
 }
 
-/*
-func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*userpb.UserResponse, error) {
+// GetUser gets a user based on their uuid
+func (s *Server) GetUser(ctx context.Context, request *userpb.UserRequest) (*userpb.UserResponse, error) {
 	// Extract request data
-	uid := request.GetUser().GetUserId()
+	uid := request.GetUser().GetId()
 
-	// Insert into database
-	err := s.Mongo.Client.FindUser(uid)
+	// Pass off uid to database funciotns
+	user, err := s.Mongo.GetUser(uid)
 	if err != nil {
-		return nil, status.Errorf(
-			codes.NotFound,
-			fmt.Sprintf("Unable to find user with id: %v", err),
-		)
+		return nil, err
 	}
+	fmt.Print(user)
 
 	return &userpb.UserResponse{
 		User: convert(user),
 	}, nil
 }
-*/
 
 // StartUserService starts the user service server
 func StartUserService(s *Server) {
@@ -126,7 +115,7 @@ func StartUserService(s *Server) {
 	userpb.RegisterUserServiceServer(g, s)
 	reflection.Register(g)
 
-	if err := g.Serve(s.Listener); err != nil {
+	if err := g.Serve(lis); err != nil {
 		panic(err)
 	}
 }
@@ -138,7 +127,7 @@ func StartUserServiceProxy(s *Server) {
 
 	mux := gwruntime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := contentpb.RegisterContentServiceHandlerFromEndpoint(ctx, mux, s.Endpoint, opts)
+	err := userpb.RegisterUserServiceHandlerFromEndpoint(ctx, mux, s.Endpoint, opts)
 	if err != nil {
 		panic(err)
 	}
