@@ -49,3 +49,6 @@ kubeinit:
 	kubectl create -f kubernetes/deployment.yaml
 	kubectl create -f kubernetes/load-balancer.yaml
 	kubectl create -f kubernetes/ingress.yaml
+
+build:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o cmd/homecook/HomeCOOK cmd/homecook/main.go
