@@ -54,12 +54,16 @@ func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*
 	// Extract request data
 	data := request.GetUser()
 	location := data.GetLocation()
+	password, err := common.EncryptPassword(data.GetPassword())
+	if err != nil {
+		panic(err)
+	}
 
 	// Create model and Encrypt password
 	user := &models.User{
 		FirstName: data.GetFirstName(),
 		LastName:  data.GetLastName(),
-		Password:  common.EncryptPassword(data.GetPassword()),
+		Password:  password,
 		Location: &models.Location{
 			Latitude:  location.GetLatitude(),
 			Longitude: location.GetLongitude(),
@@ -69,7 +73,7 @@ func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*
 	}
 
 	// Insert into database and add ObjectId to struct
-	err := s.Mongo.CreateUser(user)
+	err = s.Mongo.CreateUser(user)
 
 	if err != nil {
 		return nil, err

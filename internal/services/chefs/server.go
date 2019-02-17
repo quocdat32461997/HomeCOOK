@@ -43,12 +43,16 @@ func (s *Server) CreateChef(ctx context.Context, request *chefpb.ChefRequest) (*
 	// Extract request data
 	data := request.GetChef()
 	location := data.GetLocation()
+	password, err := common.EncryptPassword(data.GetPassword())
+	if err != nil {
+		panic(err)
+	}
 
 	// Create model and Encrypt password
 	chef := &models.Chef{
 		FirstName: data.GetFirstName(),
 		LastName:  data.GetLastName(),
-		Password:  common.EncryptPassword(data.GetPassword()),
+		Password:  password,
 		Location: &models.Location{
 			Latitude:  location.GetLatitude(),
 			Longitude: location.GetLongitude(),
@@ -58,7 +62,7 @@ func (s *Server) CreateChef(ctx context.Context, request *chefpb.ChefRequest) (*
 	}
 
 	// Insert into database and add ObjectId to struct
-	err := s.Mongo.CreateChef(chef)
+	err = s.Mongo.CreateChef(chef)
 
 	if err != nil {
 		return nil, err
