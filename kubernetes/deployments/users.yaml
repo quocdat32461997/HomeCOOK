@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: homecook-users
+  name: homecook-users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homecook-users
+  template:
+    metadata:
+      labels:
+        app: homecook-users
+    spec:
+      containers:
+      - name: homecook
+        image: gcr.io/homecook/homecook-users:latest
+        ports:
+          - containerPort: 8080
+      
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: gcrcred
