@@ -19,18 +19,9 @@ RUN adduser -D -g '' homecook
 
 WORKDIR $GOPATH/src/github.com/quocdat32461997/HomeCOOK/
 COPY . .
-WORKDIR $GOPATH/src/github.com/quocdat32461997/HomeCOOK/cmd/homecook
 
-RUN go get -u google.golang.org/grpc
-RUN go get -u github.com/golang/protobuf/protoc-gen-go
-RUN go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-RUN go get -u github.com/globalsign/mgo
-RUN go get -u github.com/joho/godotenv
-RUN go get -u golang.org/x/net
-RUN go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
-
-RUN CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o ./HomeCOOK cmd/homecook/main.go
-WORKDIR $GOPATH/src/github.com/quocdat32461997/HomeCOOK/
+RUN go get -v ./cmd/homecook/...
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o ./cmd/homecook/HomeCOOK cmd/homecook/main.go
 
 EXPOSE 8080
 EXPOSE 8081
