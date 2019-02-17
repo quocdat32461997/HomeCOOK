@@ -1,7 +1,6 @@
 package chefs
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 
@@ -21,7 +20,7 @@ type Server struct {
 	Listener net.Listener
 }
 
-// Converts model.Chef to userpb.Chef
+// Converts model.Chef to chefpb.Chef
 func convert(chef *models.Chef) *chefpb.Chef {
 
 	return &chefpb.Chef{
@@ -34,7 +33,7 @@ func convert(chef *models.Chef) *chefpb.Chef {
 			Latitude:  chef.Location.Latitude,
 		},
 		Rating:        chef.Rating,
-		KnownRecepies: chef.KnownRecepies,
+		KnownRecipies: chef.KnownRecipies,
 	}
 }
 
@@ -43,14 +42,14 @@ func encrypt(password string) string {
 	return password
 }
 
-// CreateUser creates new users for the platform
+// CreateChef creates new chefs for the platform
 func (s *Server) CreateChef(ctx context.Context, request *chefpb.ChefRequest) (*chefpb.ChefResponse, error) {
 	// Extract request data
 	data := request.GetChef()
 	location := data.GetLocation()
 
 	// Create model and Encrypt password
-	user := &models.User{
+	chef := &models.Chef{
 		FirstName: data.GetFirstName(),
 		LastName:  data.GetLastName(),
 		Password:  encrypt(data.GetPassword()),
@@ -58,42 +57,40 @@ func (s *Server) CreateChef(ctx context.Context, request *chefpb.ChefRequest) (*
 			Latitude:  location.GetLatitude(),
 			Longitude: location.GetLongitude(),
 		},
-		Allergens:      data.GetAllergens(),
-		FoodPreference: data.GetFoodPreference().String(),
+		Rating:        -1,         // New chefs do not have a raiting yet
+		KnownRecipies: []string{}, // New chefs must select what recepies they are familiar with
 	}
 
 	// Insert into database and add ObjectId to struct
-	err := s.Mongo.CreateUser(user)
-	fmt.Println(user)
+	err := s.Mongo.CreateChef(chef)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &userpb.UserResponse{
-		User: convert(user),
+	return &chefpb.ChefResponse{
+		Chef: convert(chef),
 	}, nil
 }
 
-// GetUser gets a user based on their uuid
-func (s *Server) GetUser(ctx context.Context, request *userpb.UserRequest) (*userpb.UserResponse, error) {
+// GetChef gets a chef based on their uuid
+func (s *Server) GetChef(ctx context.Context, request *chefpb.ChefRequest) (*chefpb.ChefResponse, error) {
 	// Extract request data
-	uid := request.GetUser().GetId()
+	uid := request.GetChef().GetId()
 
 	// Pass off uid to database funciotns
-	user, err := s.Mongo.GetUser(uid)
+	chef, err := s.Mongo.GetChef(uid)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Print(user)
 
-	return &userpb.UserResponse{
-		User: convert(user),
+	return &chefpb.ChefResponse{
+		Chef: convert(chef),
 	}, nil
 }
 
-// StartUserService starts the user service server
-func StartUserService(s *Server) {
+// StartChefService starts the chef service's server
+func StartChefService(s *Server) {
 	lis, err := net.Listen("tcp", s.Endpoint)
 	if err != nil {
 		panic(err)
@@ -101,7 +98,7 @@ func StartUserService(s *Server) {
 
 	opts := []grpc.ServerOption{}
 	g := grpc.NewServer(opts...)
-	userpb.RegisterUserServiceServer(g, s)
+	chefpb.RegisterChefServiceServer(g, s)
 	reflection.Register(g)
 
 	if err := g.Serve(lis); err != nil {
@@ -109,19 +106,19 @@ func StartUserService(s *Server) {
 	}
 }
 
-// StartUserServiceProxy start's the HTTP to gRPC proxy
-func StartUserServiceProxy(s *Server) {
+// StartChefServiceProxy starts the chef service's HTTP to gRPC proxy
+func StartChefServiceProxy(s *Server) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	mux := gwruntime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := userpb.RegisterUserServiceHandlerFromEndpoint(ctx, mux, s.Endpoint, opts)
+	err := chefpb.RegisterChefServiceHandlerFromEndpoint(ctx, mux, s.Endpoint, opts)
 	if err != nil {
 		panic(err)
 	}
 
-	err = http.ListenAndServe(":8080", mux)
+	err = http.ListenAndServe(":8081", mux)
 	if err != nil {
 		panic(err)
 	}

@@ -1,7 +1,6 @@
 package users
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 
@@ -75,7 +74,6 @@ func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*
 
 	// Insert into database and add ObjectId to struct
 	err := s.Mongo.CreateUser(user)
-	fmt.Println(user)
 
 	if err != nil {
 		return nil, err
@@ -96,7 +94,6 @@ func (s *Server) GetUser(ctx context.Context, request *userpb.UserRequest) (*use
 	if err != nil {
 		return nil, err
 	}
-	fmt.Print(user)
 
 	return &userpb.UserResponse{
 		User: convert(user),

@@ -10,4 +10,4 @@ http://localhost:8080/v1/user
 
 # Get a user
 # http://localhost:8080/v1/user/
-curl localhost:8080/v1/user/5c68cf8d680afd7cda4146b1
+curl localhost:8080/v1/user/5c68f7c13ac52b1b9ce57316
