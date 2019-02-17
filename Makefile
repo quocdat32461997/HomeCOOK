@@ -38,3 +38,14 @@ shc:
 
 run:
 	go run cmd/homecook/main.go
+
+docker: 
+	docker build -t gcr.io/homecook/homecook:latest .
+	docker push gcr.io/homecook/homecook:latest
+
+kubeinit:
+	gcloud container clusters create homecook
+	gcloud container clusters get-credentials homecook
+	kubectl create -f kubernetes/deployment.yaml
+	kubectl create -f kubernetes/load-balancer.yaml
+	kubectl create -f kubernetes/ingress.yaml
