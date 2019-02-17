@@ -7,6 +7,7 @@ import (
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/quocdat32461997/HomeCOOK/api/protos/userpb"
 	"github.com/quocdat32461997/HomeCOOK/internal/cloud"
+	"github.com/quocdat32461997/HomeCOOK/internal/common"
 	"github.com/quocdat32461997/HomeCOOK/internal/models"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -48,11 +49,6 @@ func convert(user *models.User) *userpb.User {
 	}
 }
 
-// Encrypts the users password for storage in database
-func encrypt(password string) string {
-	return password
-}
-
 // CreateUser creates new users for the platform
 func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*userpb.UserResponse, error) {
 	// Extract request data
@@ -63,7 +59,7 @@ func (s *Server) CreateUser(ctx context.Context, request *userpb.UserRequest) (*
 	user := &models.User{
 		FirstName: data.GetFirstName(),
 		LastName:  data.GetLastName(),
-		Password:  encrypt(data.GetPassword()),
+		Password:  common.EncryptPassword(data.GetPassword()),
 		Location: &models.Location{
 			Latitude:  location.GetLatitude(),
 			Longitude: location.GetLongitude(),

@@ -7,6 +7,7 @@ import (
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/quocdat32461997/HomeCOOK/api/protos/chefpb"
 	"github.com/quocdat32461997/HomeCOOK/internal/cloud"
+	"github.com/quocdat32461997/HomeCOOK/internal/common"
 	"github.com/quocdat32461997/HomeCOOK/internal/models"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -37,11 +38,6 @@ func convert(chef *models.Chef) *chefpb.Chef {
 	}
 }
 
-// Encrypts the chef's password for storage in database
-func encrypt(password string) string {
-	return password
-}
-
 // CreateChef creates new chefs for the platform
 func (s *Server) CreateChef(ctx context.Context, request *chefpb.ChefRequest) (*chefpb.ChefResponse, error) {
 	// Extract request data
@@ -52,7 +48,7 @@ func (s *Server) CreateChef(ctx context.Context, request *chefpb.ChefRequest) (*
 	chef := &models.Chef{
 		FirstName: data.GetFirstName(),
 		LastName:  data.GetLastName(),
-		Password:  encrypt(data.GetPassword()),
+		Password:  common.EncryptPassword(data.GetPassword()),
 		Location: &models.Location{
 			Latitude:  location.GetLatitude(),
 			Longitude: location.GetLongitude(),
