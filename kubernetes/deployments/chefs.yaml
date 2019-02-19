@@ -15,21 +15,21 @@ spec:
         app: homecook-chefs
     spec:
       containers:
-      - name: homecook-chefs
-        image: gcr.io/homecook/homecook-chefs:latest
-        ports:
-          - containerPort: 8081     
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8081
-        readinessProbe:    
-          httpGet:
-            path: /health
-            port: 8081
+        - name: homecook-chefs
+          image: gcr.io/homecook/homecook-chefs:latest
+          ports:
+            - containerPort: 8081
+          livenessProbe:
+            httpGet:
+              path: /chefs/v1/health
+              port: 8081
+          readinessProbe:
+            httpGet:
+              path: /chefs/v1/health
+              port: 8081
       restartPolicy: Always
       imagePullSecrets:
-      - name: gcrcred
+        - name: gcrcred
 
 ---
 apiVersion: v1
@@ -42,5 +42,5 @@ spec:
   selector:
     app: homecook-chefs
   ports:
-  - port: 8081
+    - port: 8081
   type: NodePort

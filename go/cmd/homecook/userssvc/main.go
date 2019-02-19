@@ -6,8 +6,8 @@ import (
 	"os/signal"
 
 	"github.com/joho/godotenv"
-	"github.com/quocdat32461997/HomeCOOK/internal/cloud"
-	"github.com/quocdat32461997/HomeCOOK/internal/services/users"
+	"github.com/quocdat32461997/HomeCOOK/go/internal/cloud"
+	"github.com/quocdat32461997/HomeCOOK/go/internal/services/users"
 )
 
 func main() {

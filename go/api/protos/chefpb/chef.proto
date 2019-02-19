@@ -58,20 +58,20 @@ service ChefService {
 		Fields omitted in POST request: 1, 6, 7
 		*/
 		option (google.api.http) = {
-			post: "/v1/chef"
+			post: "/chefs/v1/chef"
 			body: "*"
 		};
 	}
 	
 	rpc GetChef (ChefRequest) returns (ChefResponse) {
 		option (google.api.http) = {
-			get: "/v1/chef/{chef.id}"
+			get: "/chefs/v1/chef/{chef.id}"
 		};
 	}
 
 	rpc Health (google.protobuf.Empty) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
-			get: "/health"
+			get: "/chefs/v1/health"
 		};
 	}
 	

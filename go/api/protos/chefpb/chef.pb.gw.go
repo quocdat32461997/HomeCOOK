@@ -192,11 +192,11 @@ func RegisterChefServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 }
 
 var (
-	pattern_ChefService_CreateChef_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "chef"}, ""))
+	pattern_ChefService_CreateChef_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"chefs", "v1", "chef"}, ""))
 
-	pattern_ChefService_GetChef_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "chef", "chef.id"}, ""))
+	pattern_ChefService_GetChef_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"chefs", "v1", "chef", "chef.id"}, ""))
 
-	pattern_ChefService_Health_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"health"}, ""))
+	pattern_ChefService_Health_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"chefs", "v1", "health"}, ""))
 )
 
 var (

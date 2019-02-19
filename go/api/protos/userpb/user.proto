@@ -63,20 +63,20 @@ service UserService {
 		Fields omitted in POST request: 1
 		*/
 		option (google.api.http) = {
-			post: "/v1/user"
+			post: "/users/v1/user"
 			body: "*"
 		};
 	}
 	
 	rpc GetUser (UserRequest) returns (UserResponse) {
 		option (google.api.http) = {
-			get: "/v1/user/{user.id}"
+			get: "/users/v1/user/{user.id}"
 		};
 	}
 
 	rpc Health (google.protobuf.Empty) returns (google.protobuf.Empty) {
 		option (google.api.http) = {
-			get: "/health"
+			get: "/users/v1/health"
 		};
 	}
 	

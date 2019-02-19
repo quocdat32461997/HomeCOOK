@@ -8,7 +8,7 @@ import (
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
-	"github.com/quocdat32461997/HomeCOOK/internal/models"
+	"github.com/quocdat32461997/HomeCOOK/go/internal/models"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

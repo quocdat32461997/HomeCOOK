@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: meme
+  name: meme
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meme
+  template:
+    metadata:
+      labels:
+        app: meme
+    spec:
+      containers:
+        - name: meme
+          image: nginx:1.7.9
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: gcrcred
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meme
+  labels:
+    app: meme
+spec:
+  selector:
+    app: meme
+  ports:
+    - port: 80
+  type: NodePort

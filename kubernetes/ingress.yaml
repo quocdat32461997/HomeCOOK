@@ -2,19 +2,21 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: fanout-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
-  - http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: meme
-          servicePort: 8080
-      - path: /v1/user/*
-        backend:
-          serviceName: homecook-users
-          servicePort: 8080
-      - path: /v1/chef/*
-        backend:
-          serviceName: homecook-chefs
-          servicePort: 8081
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: meme
+              servicePort: 80
+          - path: /users/*
+            backend:
+              serviceName: homecook-users
+              servicePort: 8080
+          - path: /chefs/*
+            backend:
+              serviceName: homecook-chefs
+              servicePort: 8081
