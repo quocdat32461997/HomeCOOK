@@ -6,11 +6,15 @@ spec:
   rules:
   - http:
       paths:
-      - path: /api/users/*
+      - path: /*
+        backend:
+          serviceName: meme
+          servicePort: 8080
+      - path: /v1/user/*
         backend:
           serviceName: homecook-users
           servicePort: 8080
-      - path: /api/chefs/*
+      - path: /v1/chef/*
         backend:
           serviceName: homecook-chefs
           servicePort: 8081

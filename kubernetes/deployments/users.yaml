@@ -19,18 +19,29 @@ spec:
         image: gcr.io/homecook/homecook-users:latest
         ports:
           - containerPort: 8080
-      livenessProbe:      # Used by deployment controller
-      httpGet:
-        path: /health
-        port: 8080
-      initialDelaySeconds: 3
-      periodSeconds: 3 
-    readinessProbe:    
-      httpGet:
-        path: /health
-        port: 8080
-      initialDelaySeconds: 3
-      periodSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        readinessProbe:    
+          httpGet:
+            path: /health
+            port: 8080
       restartPolicy: Always
       imagePullSecrets:
       - name: gcrcred
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homecook-users
+  labels:
+    app: homecook-users
+spec:
+  selector:
+    app: homecook-users
+  ports:
+  - port: 8080
+  type: NodePort

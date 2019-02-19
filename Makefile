@@ -36,23 +36,33 @@ c: chef chefproxy
 shc:
 	sh scripts/chef.sh
 
-run:
-	go run cmd/homecook/main.go
+runu:
+	go run cmd/homecook/userssvc/main.go
+
+runc:
+	go run cmd/homecook/chefssvc/main.go
 
 usersd: 
-	docker build -t gcr.io/homecook/homecook-users:latest .
+	docker build -t gcr.io/homecook/homecook-users:latest cmd/homecook/userssvc/
 	docker push gcr.io/homecook/homecook-users:latest
 	
 chefsd: 
-	docker build -t gcr.io/homecook/homecook-chefs:latest .
+	docker build -t gcr.io/homecook/homecook-chefs:latest cmd/homecook/chefssvc/
 	docker push gcr.io/homecook/homecook-chefs:latest
 
 kubeinit:
 	gcloud container clusters create homecook
-	gcloud container clusters get-credentials homecook
-	kubectl create -f kubernetes/deployment.yaml
-	kubectl create -f kubernetes/load-balancer.yaml
+	gcloud codntainer clusters get-credentials homecook
+	kubectl create -f kubernetes/deployments/chefs.yaml
+	kubectl create -f kubernetes/deployments/users.yaml
 	kubectl create -f kubernetes/ingress.yaml
 
-build:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o cmd/homecook/HomeCOOK cmd/homecook/main.go
+buildu:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o cmd/homecook/userssvc/users cmd/homecook/userssvc/main.go
+
+buildc:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o cmd/homecook/chefssvc/chefs cmd/homecook/chefssvc/main.go
+
+expose:
+	kubectl expose deployment homecook-users --target-port=8080 --type=NodePort
+	kubectl expose deployment homecook-chefs --target-port=8081 --type=NodePort

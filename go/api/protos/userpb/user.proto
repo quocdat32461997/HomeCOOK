@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+package io.homecook.service.user;
+option go_package="userpb";
+
+
+message Location {
+	double longitude = 1;
+	double latitude = 2;
+}
+
+message User {
+	// The unique ID of the user
+	string id = 1;
+	
+	// The user's first name
+	string first_name = 2;
+	
+	// The user's last name
+	string last_name = 3;
+	
+	// The user's hashed and salted password
+	string password = 4;
+	
+	// The user's location
+	Location location = 5;
+	
+	// The user's allergens
+	repeated string allergens = 6;
+	
+	enum FoodPreference {
+		NONE = 0; // Default
+		VEGAN = 1;
+		VEGETARIAN = 2;
+		PESCETARIAN = 3;
+	}
+	
+	// The user's food preferences
+	// Note: front-end should provide drop-down component with ONLY these options
+	FoodPreference food_preference = 7;
+}
+
+message UserRequest{
+	User user = 1;
+}
+
+message UserResponse {
+	User user = 1;
+}
+
+
+service UserService {
+	rpc CreateUser (UserRequest) returns (UserResponse) {
+		/* Example POST request: 
+		curl -H "Accept: application/jsonpb" \
+		-H "Content-Type: application/json" \
+		-X POST \
+		-d '{"user": {"first_name": "Simon", "last_name": "Woldemichael", "password": "l337p@$$w0rd", "location": {"latitude": 33.5779, "longitude": 101.8552 }}}' \
+		http://localhost:8080/v1//v1/user
+		Fields omitted in POST request: 1
+		*/
+		option (google.api.http) = {
+			post: "/v1/user"
+			body: "*"
+		};
+	}
+	
+	rpc GetUser (UserRequest) returns (UserResponse) {
+		option (google.api.http) = {
+			get: "/v1/user/{user.id}"
+		};
+	}
+
+	rpc Health (google.protobuf.Empty) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			get: "/health"
+		};
+	}
+	
+}
+
